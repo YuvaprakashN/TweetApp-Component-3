@@ -1,0 +1,53 @@
+<nav-bar></nav-bar>
+<div class="form-group text-center mt-3 mb-3 d-flex justify-content-center">
+    <div class="form-group mt-3 d-flex justify-content-between ">
+        <input type="text" name="addTweet" id="addTweet" class="form-control" placeholder="Enter text to tweet"
+            [(ngModel)]="addTweetText">
+        <button type="button" class="btn btn-primary d-flex justify-content-between" (click)="addTweet()"><i
+                class="bi bi-reply-fill"></i>&nbsp;Add tweet</button>
+    </div>
+</div>
+<div *ngFor="let tweet of tweetsList" class="d-flex justify-content-center mt-3 mb-3 ">
+
+    <div class="card w-75 bg-info ">
+        <div class="card-header d-flex justify-content-between">
+            <span class="col">{{ tweet.user.firstName }}</span>
+            <span class="col text-end">{{tweet.tweetDate | timeAgo}}</span>
+        </div>
+        <div class="card-body">
+            <div class=" d-flex justify-content-between">
+                <h5 class="card-title"> {{ tweet.tweetText }}</h5>
+                <div style="font-size:24px;">
+                    <span class="badge badge-secondary">{{tweet.tweetLike}}</span>
+                    <i class="bi bi-hand-thumbs-up-fill text-success " role="button" (click)="like(tweet)"></i>
+                </div>
+            </div>
+            <button *ngIf="tweet.user.id == user.id" (click)="delete(tweet.tweetId)" class="btn">Delete</button>
+            <button *ngIf="tweet.user.id == user.id " (click)="editClick(tweet.tweetId)" class="btn">Edit</button>
+
+            <input *ngIf="editClicked[tweet.tweetId]==true" type="text" name=" 'editText' + tweet.tweetId "
+                id=" 'editText' + tweet.tweetId " class="form-control" placeholder="Enter text to edit"
+                [(ngModel)]="editText[tweet.tweetId]">
+            <button *ngIf="editClicked[tweet.tweetId]==true" (click)="edit(tweet)" class="btn">Edit</button>
+
+
+            <div class=" overflow-auto h-auto" style="max-height: 200px;">
+                <div *ngFor="let reply of tweet.tweetReplies" class="card mb-1">
+                    <div class="card-header p-1 d-flex justify-content-between">
+                        <span class="col">{{ reply.user.firstName }}</span>
+                        <span class="col text-end">{{reply.repliedDate | timeAgo}}</span>
+                    </div>
+                    <div class="p-1 h-auto">{{reply.replyMessage}}</div>
+                </div>
+            </div>
+
+            <div class="form-group mt-3  d-flex justify-content-between">
+                <input type="text" name=" 'reply' + tweet.tweetId " id=" 'reply' + tweet.tweetId " class="form-control"
+                    placeholder="Enter text to reply" [(ngModel)]="replyText[tweet.tweetId]">
+                <button type="button" class="btn btn-primary d-flex justify-content-between" (click)="reply(tweet)"><i
+                        class="bi bi-reply-fill"></i>&nbsp;Reply</button>
+            </div>
+
+        </div>
+    </div>
+</div>

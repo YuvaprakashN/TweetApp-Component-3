@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-info" style="max-height: 48px;">
+  <div class="container-fluid">
+      <i class="bi bi-twitter text-danger" style="font-size:30px;"></i>&nbsp;
+      <a class="navbar-brand" >TweetApp</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent"  *ngIf="isAuthenticated">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" routerLink="/tweets">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" routerLink="/users">Users</a>
+              </li>
+          </ul>
+          <div class="d-flex">
+            <a class="nav-link" *ngIf="isAuthenticated" routerLink="/tweets/{{user.id}}">{{user.firstName}}</a>&nbsp;
+           &nbsp;
+              <a class="nav-link"  *ngIf="isAuthenticated" (click)="logout()" >Logout</a>
+              <a class="nav-link"  *ngIf="!isAuthenticated" routerLink="/login">Login</a>
+          </div>
+
+      </div>
+
+  </div>
+</nav>

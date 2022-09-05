@@ -1,0 +1,27 @@
+<nav-bar></nav-bar>
+<div class="container d-flex justify-content-center">
+  <div class=" w-50">
+    <div class="bg-light py-3 mt-4" style="text-align: center;">
+      <h3 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Users</h3>
+
+    </div>
+    <form class="row g-3" #searchUserForm="ngForm" (ngSubmit)="onSubmit(searchUserForm)">
+      <div class="col-auto">
+        <input type="text" id="userName" name="userName" ngModel >
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </form>
+    <div *ngIf="userModel.length==0" class="row text-center">
+      <h3 class="col-12">No users to display!!</h3>
+    </div>
+
+    <div *ngFor="let user of userModel" class="card p-3 m-2 d-flex justify-content-between"
+      (click)="getDetails(user.id)" role="button">
+      <div class=" d-flex justify-content-between"><span class="col">{{user.username}}</span><span
+          class="col text-end">DOB:{{user.dob}}</span>
+      </div>
+    </div>
+  </div>
+</div>
