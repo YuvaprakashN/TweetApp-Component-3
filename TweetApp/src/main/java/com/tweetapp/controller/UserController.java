@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tweetapp.DTO.UserDTO;
@@ -38,24 +37,23 @@ public class UserController {
 	
 	@PostMapping("/register")
 	@ApiOperation(value = "AddUser", notes = "Register the user", httpMethod = "POSt")
-	public ResponseEntity<?> subscribeClient(@RequestBody UserRegisterationRequest request) throws  UserException, IllegalAccessException, InvocationTargetException {
+	public ResponseEntity<UserDTO> subscribeClient(@RequestBody UserRegisterationRequest request) throws  UserException, IllegalAccessException, InvocationTargetException {
 
-		System.out.println("Register User: "+request);
+		log.info("Register User: "+request);
 		User user=new User();
 		BeanUtils.copyProperties(user, request);
 			UserDTO savedUser = userService.saveUser(user);
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 	}
 
-	@PostMapping(value = "/publish")
-	  public void sendMessageToKafkaTopic(@RequestParam("message") String message) {
-	  }
+
 	@PostMapping("/login")
 	@ApiOperation(value = "LoginUser", notes = "Login to the Tweet application", httpMethod = "POSt")
-	public ResponseEntity<?> authenticateClient(@RequestBody LoginRequest request) throws InvalidCredentialsException {
+	public ResponseEntity<UserDTO> authenticateClient(@RequestBody LoginRequest request) throws InvalidCredentialsException {
 		log.info("User Login Request: "+request.toString());
 		String username = request.getEmail();
 		String password = request.getPassword();
+		
 		
 		return new ResponseEntity<>(userService.findByEmailAndPassword(username,password), HttpStatus.OK);
 	}
@@ -72,13 +70,13 @@ public class UserController {
 	@PostMapping("/{userEmail}/forgot")
 	@ApiOperation(value = "ForgotPassword", notes = "Forgot password", httpMethod = "POST")
 	public User forgotPassword(@RequestBody ForgotPasswordRequest request,@PathVariable String userEmail) throws UserException {
-		System.out.println("Forgot: "+request.toString());
+		log.info("Forgot: "+request.toString());
 		return userService.forgotPassword(request, userEmail);
 	}
 	
 	@GetMapping("/user/search/{userName}")
 	@ApiOperation(value = "Search User", notes = "Search user", httpMethod = "GET")
-	public List<User> getAllUserByUserName(@PathVariable String userName) throws UserException{
+	public List<User> getAllUserByUserName(@PathVariable String userName) {
 		return userService.findByUserByUserName(userName);
 		
 	}

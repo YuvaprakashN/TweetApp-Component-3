@@ -10,26 +10,27 @@ import com.tweetapp.DTO.UserDTO;
 import com.tweetapp.customException.InvalidCredentialsException;
 import com.tweetapp.customException.UserException;
 import com.tweetapp.dao.UserDAO;
-import com.tweetapp.entity.Tweet;
 import com.tweetapp.entity.User;
 import com.tweetapp.http.ForgotPasswordRequest;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class UserService {
 
 	@Autowired
 	private UserDAO userDao;
 
 	public UserDTO saveUser(User user) throws UserException {
-System.out.println("Saving user:"+user);
+log.info("Saving user:"+user);
 		Optional<User> isUserPresent = userDao.findByEmail(user.getEmail());
 		if(isUserPresent.isPresent())
 			throw new UserException("User with Email: "+user.getEmail()+" is already exist");
 		user.setUsername(user.getFirstName()+" "+user.getLastName());
-		User Saveduser = userDao.save(user);
-		UserDTO dto = convertUsertoUserDto(Saveduser);
+		User saveduser = userDao.save(user);
+		return convertUsertoUserDto(saveduser);
 
-		return dto;
 	}
 
 	public UserDTO findByEmailAndPassword(String email, String password) throws InvalidCredentialsException {
@@ -54,7 +55,7 @@ System.out.println("Saving user:"+user);
 		return new UserDTO(user.getId(),user.getUsername(),user.getFirstName(),user.getLastName(),user.getPhoneNumber(),user.getEmail());
 	}
 
-	public List<User> findByUserByUserName(String userName) throws UserException {
+	public List<User> findByUserByUserName(String userName) {
 		
 		return userDao.findByUsernameContains(userName);
 	}
@@ -62,8 +63,9 @@ System.out.println("Saving user:"+user);
 		
 		 
 		Optional<User> optional = userDao.findById( userId);
-		if(optional.isPresent())
-		return optional.get();
+		//Check user is present or not
+		if(optional.isPresent()) {//Check whether user is available or not
+		return optional.get();}
 		
 		throw new UserException("User Not Found");
 	}

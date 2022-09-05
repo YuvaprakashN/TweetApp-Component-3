@@ -16,8 +16,11 @@ import com.tweetapp.http.TweetReplyRequest;
 import com.tweetapp.service.TweetService;
 import com.tweetapp.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 //@EnableSwagger2
 @SpringBootApplication
+@Slf4j
 public class TweetAppApplication implements CommandLineRunner {
 
 	@Autowired
@@ -47,31 +50,8 @@ public class TweetAppApplication implements CommandLineRunner {
 			TweetReplyRequest replyRequest=new  TweetReplyRequest("First Reply");
 			tweetService.replyTweet(replyRequest, tweet.getTweetId(),user.getId() );
 		} catch (Exception e) {
-
+log.error(e.getMessage());
 		}
-//
 	}
 
-//	public static final Contact DEFAULT_CONTACT = new Contact(
-//			"Yuvaprakash",null ,"yuvaprakash.n@cognizant.com");
-//	
-//	public static final ApiInfo DEFAULT_API_INFO = new ApiInfo(
-//			"Authorization Microservice", 
-//			"The intent of this Microservice is to provide authorization. Sign up of user and get token method is handled by this microservcie.",
-//			"1.0",
-//			"can be accessed only from an registered Client aplpication", DEFAULT_CONTACT, 
-//			"Return order Management System", "http://localhost/returnordermanagement", Arrays.asList());
-//	
-//
-//	private static final Set<String> DEFAULT_PRODUCES_AND_CONSUMES = 
-//			new HashSet<>(Arrays.asList("application/json"));
-//
-//	@Bean
-//	public Docket api() {
-//		return new Docket(DocumentationType.SWAGGER_2)
-//				.apiInfo(DEFAULT_API_INFO)
-//				.produces(DEFAULT_PRODUCES_AND_CONSUMES)
-//				.consumes(DEFAULT_PRODUCES_AND_CONSUMES);
-//	}	
-//	
 }

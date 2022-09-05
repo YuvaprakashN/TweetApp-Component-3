@@ -1,6 +1,5 @@
 package com.tweetapp.service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +19,8 @@ import com.tweetapp.http.TweetReplyRequest;
 @Service
 public class TweetService {
 
+	private static final String NO_TWEET_FOUND = "No Tweet Found";
+
 	@Autowired
 	TweetDAO tweetDao;
 	
@@ -30,16 +31,20 @@ public class TweetService {
 	UserService userService;
 
 	public TweetService() {
-		// TODO Auto-generated constructor stub
+		//Default Constructor
 	}
 
-	public Tweet findTweetById(long tweetId) {
+	public Tweet findTweetById(long tweetId) throws TweetException {
 
-		return tweetDao.findById(tweetId).get();
+		Optional<Tweet> findById = tweetDao.findById(tweetId);
+		if(findById.isPresent())	{//Check whether tweet isavailable or not
+		return findById.get();}
+		else
+			throw new TweetException(NO_TWEET_FOUND);
 	}
 
 	public Tweet saveTweet(TweetPostRequest tweetRequest, long userId)
-			throws IllegalAccessException, InvocationTargetException, UserException {
+			throws  UserException {
 		Tweet tweet = new Tweet();
 		tweet.setTweetText(tweetRequest.getTweetText());
 		User user = userService.findByUserId(userId);
@@ -50,16 +55,20 @@ public class TweetService {
 	public Tweet updateTweet(TweetPostRequest tweetRequest, long userId, long tweetId) throws TweetException {
 
 		if (checkTweetIsValidUser(tweetId, userId)) {
-			Tweet tweet = tweetDao.findById(tweetId).get();
+			Optional<Tweet> findById = tweetDao.findById(tweetId);
+			if(findById.isPresent()) {
+			Tweet tweet = findById.get();
 			tweet.setTweetText(tweetRequest.getTweetText());
-			return tweetDao.save(tweet);
+			return tweetDao.save(tweet);}
+			else
+				throw new TweetException("No tweet found");
 		}
 
 		return null;
 	}
 
 	public void deleteTweet(long tweetId, long userId)
-			throws IllegalAccessException, InvocationTargetException, TweetException {
+			throws  TweetException {
 
 		if (checkTweetIsValidUser(tweetId, userId))
 			tweetDao.deleteById(tweetId);
@@ -68,9 +77,15 @@ public class TweetService {
 	
 	public void likeTweet(long tweetId,long userId) throws TweetException {
 		
-		Tweet tweet = tweetDao.findById(tweetId).get();
+		Optional<Tweet> findById = tweetDao.findById(tweetId);
+		if(findById.isPresent()) {
+		Tweet tweet = findById.get();
 		tweet.setTweetLike( tweet.getTweetLike()+1);
 		tweetDao.save(tweet);
+		}
+		else {
+			throw new TweetException(NO_TWEET_FOUND);
+		}
 	}
 
 	
@@ -84,14 +99,18 @@ public class TweetService {
 		return tweetDao.findByUser(user);
 	}
 	
-	public void replyTweet(TweetReplyRequest request,long tweetId,long userId) throws TweetException, UserException {
-		Tweet tweet = tweetDao.findById(tweetId).get();
+	public void replyTweet(TweetReplyRequest request,long tweetId,long userId) throws  UserException, TweetException {
+		Optional<Tweet> findById = tweetDao.findById(tweetId);
+		if(findById.isPresent()) {
+		Tweet tweet = findById.get();
 		User user=userService.findByUserId(userId);
 		TweetReply tweetReply=new TweetReply();
 		tweetReply.setReplyMessage(request.getReplyMessage());
 		tweetReply.setUser(user);
 		tweetReply.setTweet(tweet);
-		tweetReplyDAO.save(tweetReply);
+		tweetReplyDAO.save(tweetReply);}
+		else
+			throw new TweetException(NO_TWEET_FOUND);
 	}
 	
 	private boolean checkTweetIsValidUser(long tweetId, long userId) throws TweetException {

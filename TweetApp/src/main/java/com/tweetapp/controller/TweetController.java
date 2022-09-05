@@ -21,37 +21,40 @@ import com.tweetapp.http.TweetReplyRequest;
 import com.tweetapp.service.TweetService;
 
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @CrossOrigin(originPatterns = "*")
+@Slf4j
 public class TweetController {
 	
 	@Autowired
 	TweetService service;
 
 	public TweetController() {
+		//Default Constructor
 	}
 
 	@PostMapping("/{userId}/add")
 	@ApiOperation(value = "Post Tweet", notes = "Post the user tweet", httpMethod = "POST", response = Tweet.class)
 	
 	public Tweet saveTweet(@RequestBody TweetPostRequest tweetPostRequest,@PathVariable long userId) throws IllegalAccessException, InvocationTargetException, UserException{
-		System.out.println("TweetPosted: "+tweetPostRequest+" User: "+userId);
+		log.info("TweetPosted: "+tweetPostRequest+" User: "+userId);
 		
 		return service.saveTweet(tweetPostRequest, userId);
 	}
 	
 	@PutMapping("/{userId}/update/{tweetId}")
 	@ApiOperation(value = "update Tweet", notes = "Update the existing tweet", httpMethod = "POST", response = Tweet.class)
-	public Tweet updateTweet(@RequestBody TweetPostRequest tweetRequest,@PathVariable long userId,@PathVariable long tweetId) throws IllegalAccessException, InvocationTargetException, TweetException {
+	public Tweet updateTweet(@RequestBody TweetPostRequest tweetRequest,@PathVariable long userId,@PathVariable long tweetId) throws TweetException {
 		
-		System.out.println("TweetId: "+tweetId+" userId: "+userId+" text: "+tweetRequest.getTweetText());
+		log.info("TweetId: "+tweetId+" userId: "+userId+" text: "+tweetRequest.getTweetText());
 		return service.updateTweet(tweetRequest, userId, tweetId);
 	}
 	
 	@DeleteMapping("/{userId}/delete/{tweetId}")
 	@ApiOperation(value = "Delete Tweet", notes = "Delete the user tweet", httpMethod = "DELETE")
-	public void deleteTweet(@PathVariable long userId,@PathVariable long tweetId) throws TweetException, IllegalAccessException, InvocationTargetException {
+	public void deleteTweet(@PathVariable long userId,@PathVariable long tweetId) throws TweetException{
 	
 		service.deleteTweet(tweetId, userId);
 		
@@ -65,7 +68,7 @@ public class TweetController {
 	
 	@PutMapping("/{userId}/like/{tweetId}")
 	@ApiOperation(value = "TweetLike", notes = "Like the tweet", httpMethod = "PUT")
-	public void likeTweet(@PathVariable long userId,@PathVariable long tweetId) throws TweetException, IllegalAccessException, InvocationTargetException {
+	public void likeTweet(@PathVariable long userId,@PathVariable long tweetId) throws TweetException  {
 	
 		service.likeTweet(tweetId, userId);
 
@@ -73,9 +76,9 @@ public class TweetController {
 	
 	@PostMapping("/{userId}/reply/{tweetId}")
 	@ApiOperation(value = "Tweet Reply", notes = "Reply to the Tweet", httpMethod = "POST")
-	public void replyTweet(@RequestBody TweetReplyRequest replyRequest,@PathVariable long userId,@PathVariable long tweetId) throws IllegalAccessException, InvocationTargetException, TweetException, UserException {
+	public void replyTweet(@RequestBody TweetReplyRequest replyRequest,@PathVariable long userId,@PathVariable long tweetId) throws  TweetException, UserException {
 		
-		System.out.println("TweetId: "+tweetId+" userId: "+userId+" text: "+replyRequest.getReplyMessage());
+		log.info("TweetId: "+tweetId+" userId: "+userId+" text: "+replyRequest.getReplyMessage());
 		 service.replyTweet(replyRequest, tweetId,userId);
 	}
 	

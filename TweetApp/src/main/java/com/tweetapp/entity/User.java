@@ -58,6 +58,6 @@ public class User {
 
 	@OneToMany(mappedBy = "user")
 	@JsonIgnore
-	public List<TweetReply> tweetReplies = new ArrayList<TweetReply>();
+	public List<TweetReply> tweetReplies = new ArrayList<>();
 
 }
