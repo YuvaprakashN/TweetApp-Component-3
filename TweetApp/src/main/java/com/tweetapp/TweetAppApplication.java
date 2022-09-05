@@ -50,7 +50,7 @@ public class TweetAppApplication implements CommandLineRunner {
 			TweetReplyRequest replyRequest=new  TweetReplyRequest("First Reply");
 			tweetService.replyTweet(replyRequest, tweet.getTweetId(),user.getId() );
 		} catch (Exception e) {
-log.error(e.getMessage());
+log.info("Inital setup: "+e.getMessage());
 		}
 	}
 

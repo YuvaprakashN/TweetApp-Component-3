@@ -36,7 +36,7 @@ public class UserController {
 
 	
 	@PostMapping("/register")
-	@ApiOperation(value = "AddUser", notes = "Register the user", httpMethod = "POSt")
+	@ApiOperation(value = "AddUser", notes = "Register the user", httpMethod = "POST")
 	public ResponseEntity<UserDTO> subscribeClient(@RequestBody UserRegisterationRequest request) throws  UserException, IllegalAccessException, InvocationTargetException {
 
 		log.info("Register User: "+request);
@@ -48,7 +48,7 @@ public class UserController {
 
 
 	@PostMapping("/login")
-	@ApiOperation(value = "LoginUser", notes = "Login to the Tweet application", httpMethod = "POSt")
+	@ApiOperation(value = "LoginUser", notes = "Login to the Tweet application", httpMethod = "POST")
 	public ResponseEntity<UserDTO> authenticateClient(@RequestBody LoginRequest request) throws InvalidCredentialsException {
 		log.info("User Login Request: "+request.toString());
 		String username = request.getEmail();
