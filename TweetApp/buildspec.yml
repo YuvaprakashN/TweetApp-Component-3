@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+      java: corretto11
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region $AWS_REGION)
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building java
+      - cd TweetApp
+      - mvn clean package
+      - echo Building the docker image
+      - docker build -t tweetapp .
+      - docker tag tweetapp 497231290433.dkr.ecr.ap-south-1.amazonaws.com/tweetapp-ecr:tweetapp
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo $(docker images)
+      - docker push 497231290433.dkr.ecr.ap-south-1.amazonaws.com/tweetapp-ecr:tweetapp
+      - echo Writing definition files
+      - printf '[{"name":"tweetapp-container","imageUri":"%s"}]' 497231290433.dkr.ecr.ap-south-1.amazonaws.com/tweetapp-ecr:tweetapp > taskdefinition.json
+
+artifacts:
+  files: TweetApp/taskdefinition.json
+

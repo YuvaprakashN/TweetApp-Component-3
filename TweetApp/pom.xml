@@ -97,6 +97,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>TweetApp</finalName>
 	</build>
 
 </project>
