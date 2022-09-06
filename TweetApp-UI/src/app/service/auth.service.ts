@@ -33,7 +33,7 @@ export class AuthService {
   user = new BehaviorSubject<User>(null);
  
   constructor(public http: HttpClient) {}
-
+ 
   forgotPassword(forgotPassword:ForgotPassword){
     
     return this.http.post<AuthResponseData>(this.ForgotPassword+forgotPassword.email+"/forgot",forgotPassword).pipe(

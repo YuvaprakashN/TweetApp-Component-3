@@ -7,3 +7,4 @@ export const environment = {
   getAllUser:'users/all',
   getUserByUserName:'user/search/' 
 };
+ 

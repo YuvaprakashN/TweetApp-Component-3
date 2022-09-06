@@ -11,7 +11,7 @@ export class UserService {
   baseUrl:string=environment.rootUrl;
   getAllUser:string=environment.getAllUser;
   getUserByUserName:string=environment.getUserByUserName;
-
+ 
 
   constructor(public http:HttpClient) { }
 
