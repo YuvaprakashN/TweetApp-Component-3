@@ -105,7 +105,5 @@
         }
       }
     }
-  },
-  
-  "defaultProject": "TweetApp-FE"
+  }
 }

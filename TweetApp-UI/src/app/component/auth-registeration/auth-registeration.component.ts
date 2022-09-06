@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserRegisteration } from 'src/app/model/Request.model';
 import { User } from 'src/app/model/User.model';
@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/service/auth.service';
   styleUrls: ['./auth-registeration.component.css'],
 })
 export class AuthRegisterationComponent implements OnInit {
-  registerationForm: FormGroup;
+  registerationForm: UntypedFormGroup;
   error:string='';
   passwordValidation: boolean = false;
   prePasswordCheck: boolean = false;
@@ -39,15 +39,15 @@ export class AuthRegisterationComponent implements OnInit {
   }
 
   private initForm() {
-    this.registerationForm = new FormGroup({
-      firstName: new FormControl('User', [Validators.required]),
-      lastName: new FormControl('Lnu', [Validators.required]),
-      email: new FormControl('user@user.com', [Validators.required]),
-      password: new FormControl('password', [Validators.required]),
-      rePassword: new FormControl('password', [Validators.required]),
+    this.registerationForm = new UntypedFormGroup({
+      firstName: new UntypedFormControl('User', [Validators.required]),
+      lastName: new UntypedFormControl('Lnu', [Validators.required]),
+      email: new UntypedFormControl('user@user.com', [Validators.required]),
+      password: new UntypedFormControl('password', [Validators.required]),
+      rePassword: new UntypedFormControl('password', [Validators.required]),
 
-      contact: new FormControl('9876543211', Validators.required),
-      dob: new FormControl('2022-09-09', Validators.required),
+      contact: new UntypedFormControl('9876543211', Validators.required),
+      dob: new UntypedFormControl('2022-09-09', Validators.required),
     });
   }
 

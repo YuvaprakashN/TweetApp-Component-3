@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/model/User.model';
 import { UserService } from 'src/app/service/user.service';
@@ -12,15 +12,15 @@ import { UserService } from 'src/app/service/user.service';
 export class UsersListComponent implements OnInit {
 
  
-  myFormGroup : FormGroup;
+  myFormGroup : UntypedFormGroup;
   showSearchedText : boolean = false;
   searchedText : string;
   enableButtonForSearch : boolean = false;
   userModel : User[]=[];
   noUsersToDisplay : boolean = false;
-  constructor(formBuilder : FormBuilder, public userService : UserService, public router : Router) { 
+  constructor(formBuilder : UntypedFormBuilder, public userService : UserService, public router : Router) { 
     this.myFormGroup=formBuilder.group({
-      "search" : new FormControl("",Validators.required),
+      "search" : new UntypedFormControl("",Validators.required),
     })
   }
   getDetails(username : number){
