@@ -7,7 +7,7 @@ import { User } from '../model/User.model';
   providedIn: 'root'
 })
 export class UserService {
-
+ 
   baseUrl:string=environment.rootUrl;
   getAllUser:string=environment.getAllUser;
   getUserByUserName:string=environment.getUserByUserName;

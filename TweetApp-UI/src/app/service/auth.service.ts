@@ -31,7 +31,7 @@ export class AuthService {
   RegisterationURL: string = environment.RegisterationURL;
   ForgotPassword:string=environment.rootUrl;
   user = new BehaviorSubject<User>(null);
-
+ 
   constructor(public http: HttpClient) {}
 
   forgotPassword(forgotPassword:ForgotPassword){

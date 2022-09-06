@@ -58,7 +58,7 @@ export class TweetService {
         let user = JSON.parse(localStorage.getItem('userData'));
         return this.http.put(this.rootUrl + user.id + "/update/"+ tweetId, tweetPostRequest);
     }
-
+ 
 }
 
 

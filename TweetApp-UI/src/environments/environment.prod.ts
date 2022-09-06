@@ -5,5 +5,5 @@ export const environment = {
   rootUrl:'http://Yuva-Tweetapp-LB-306326807.ap-south-1.elb.amazonaws.com/api/v1.0/tweets/',
   
   getAllUser:'users/all',
-  getUserByUserName:'user/search/'
+  getUserByUserName:'user/search/' 
 };
