@@ -6,6 +6,7 @@ import { Tweet } from '../model/Tweet.model';
 import { ReplyRequest } from '../model/ReplyRequest.model';
 import { TweetPostRequest } from '../model/TweetPostRequest.model';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root',
@@ -16,7 +17,7 @@ export class TweetService {
 
 
 
-    rootUrl: string = 'http://localhost:9090/api/v1.0/tweets/'
+    rootUrl: string = environment.rootUrl;
 
     constructor(public http: HttpClient, private router: Router) { }
 

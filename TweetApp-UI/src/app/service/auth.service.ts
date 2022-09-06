@@ -6,6 +6,7 @@ import { ForgotPassword } from '../model/ForgotPassword.model';
 import { LoginRequest } from '../model/LoginRequest.model';
 import { UserRegisteration } from '../model/Request.model';
 import { User } from '../model/User.model';
+import { environment } from 'src/environments/environment';
 
 export interface AuthResponseData {
   id: number;
@@ -26,9 +27,9 @@ export interface AuthResponseData {
   providedIn: 'root',
 })
 export class AuthService {
-  LoginURL: string = 'http://localhost:9090/api/v1.0/tweets/login';
-  RegisterationURL: string = 'http://localhost:9090/api/v1.0/tweets/register';
-  ForgotPassword:string='http://localhost:9090/api/v1.0/tweets/';
+  LoginURL: string = environment.LoginURL;
+  RegisterationURL: string = environment.RegisterationURL;
+  ForgotPassword:string=environment.rootUrl;
   user = new BehaviorSubject<User>(null);
 
   constructor(public http: HttpClient) {}
